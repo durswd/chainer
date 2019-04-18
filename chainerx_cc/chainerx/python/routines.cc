@@ -421,6 +421,20 @@ void InitChainerxManipulation(pybind11::module& m) {
           py::arg("a"),
           py::arg("axis1"),
           py::arg("axis2"));
+    m.def("repeat",
+          [](const ArrayBodyPtr& a, int64_t repeats, nonstd::optional<int8_t> axis) {
+              return MoveArrayBody(Repeat(Array{a}, repeats, axis));
+          },
+          py::arg("a"),
+          py::arg("repeats"),
+          py::arg("axis"));
+    m.def("repeat",
+          [](const ArrayBodyPtr& a, const std::vector<int64_t>& repeats, nonstd::optional<int8_t> axis) {
+              return MoveArrayBody(Repeat(Array{a}, repeats, axis));
+          },
+          py::arg("a"),
+          py::arg("repeats"),
+          py::arg("axis"));
     m.def("broadcast_to",
           [](const ArrayBodyPtr& array, py::tuple shape) { return MoveArrayBody(Array{array}.BroadcastTo(ToShape(shape))); },
           py::arg("array"),
